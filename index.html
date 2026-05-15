@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuit Observer Hub</title>
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --text: #333;
+            --accent: #007bff;
+            --card-bg: #fff;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 2rem; }
+        header { text-align: center; max-width: 800px; margin: 0 auto 3rem; }
+        h1 { margin-bottom: 0.5rem; font-weight: 300; letter-spacing: 1px; }
+        p.description { color: #666; font-style: italic; line-height: 1.6; }
+        
+        /* Search Bar */
+        #search-container { position: sticky; top: 1rem; z-index: 100; text-align: center; margin-bottom: 2rem; }
+        #search-bar { width: 100%; max-width: 400px; padding: 12px 20px; border: 1px solid #ddd; border-radius: 25px; font-size: 1rem; outline: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+
+        /* Grid Layout */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: transform 0.2s; text-decoration: none; color: inherit; display: block; }
+        .card:hover { transform: translateY(-5px); }
+        .preview-img { width: 100%; height: 160px; object-fit: cover; background: #eee; border-bottom: 1px solid #eee; }
+        .card-content { padding: 1.5rem; }
+        .card-title { margin: 0; font-size: 1.2rem; color: var(--accent); }
+        .card-desc { font-size: 0.9rem; color: #666; margin-top: 0.5rem; }
+        
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Circuit Observer</h1>
+        <p class="description">Circuit Observer's tools. I am an amateur exploring what is possible with AI, making useful niche tools for my needs.</p>
+    </header>
+
+    <div id="search-container">
+        <input type="text" id="search-bar" placeholder="Search tools..." onkeyup="filterTools()">
+    </div>
+
+    <div class="grid" id="tool-grid">
+        </div>
+
+    <script>
+        // --- ADD YOUR TOOLS HERE ---
+        const tools = [
+            {
+                name: "AI Tool One",
+                description: "Short description of what this Streamlit app does.",
+                link: "https://your-app-link-1.streamlit.app",
+                image: "https://via.placeholder.com/300x160?text=Tool+Preview" // Replace with a screenshot link
+            },
+            {
+                name: "AI Tool Two",
+                description: "Another cool AI utility I built.",
+                link: "https://your-app-link-2.streamlit.app",
+                image: "https://via.placeholder.com/300x160?text=Tool+Preview"
+            }
+        ];
+
+        function renderTools(data) {
+            const grid = document.getElementById('tool-grid');
+            grid.innerHTML = data.map(tool => `
+                <a href="${tool.link}" target="_blank" class="card" data-name="${tool.name.toLowerCase()}">
+                    <img src="${tool.image}" class="preview-img" alt="${tool.name}">
+                    <div class="card-content">
+                        <h3 class="card-title">${tool.name}</h3>
+                        <p class="card-desc">${tool.description}</p>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        function filterTools() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                card.classList.toggle('hidden', !name.includes(query));
+            });
+        }
+
+        renderTools(tools);
+    </script>
+</body>
+</html>
